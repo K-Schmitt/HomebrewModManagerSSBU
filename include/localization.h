@@ -26,6 +26,13 @@ typedef struct {
     const char* refresh_list;
     const char* quit;
     const char* change_language;
+    const char* change_sort;
+    const char* sort_alphabetical;
+    const char* sort_alphabetical_reverse;
+    const char* sort_status_on_first;
+    const char* sort_status_off_first;
+    const char* sort_type_folders_first;
+    const char* current_sort;
 } LocalizedStrings;
 
 Language detect_system_language(void);

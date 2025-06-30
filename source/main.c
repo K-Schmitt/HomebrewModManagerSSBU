@@ -56,6 +56,14 @@ int main(int argc, char **argv) {
             mod_manager_draw(&manager);
         }
 
+        if (kDown & HidNpadButton_L || kDown & HidNpadButton_R) {
+            mod_manager_cycle_sort(&manager);
+            if (manager.selected >= manager.count) {
+                manager.selected = manager.count > 0 ? manager.count - 1 : 0;
+            }
+            mod_manager_draw(&manager);
+        }
+
         consoleUpdate(NULL);
     }
 

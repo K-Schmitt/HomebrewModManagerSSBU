@@ -4,16 +4,35 @@ A simple and efficient mod manager for Super Smash Bros Ultimate on Nintendo Swi
 
 ## 📋 Description
 
-HomebrewModManagerSSBU is a homebrew application that allows you to easily manage your SSBU mods directly from your Nintendo Switch. The application provides a simple console interface to enable/disable your mods without having to manually manipulate files.
+HomebrewModManagerSSBU is a homebrew application that allows you to easily manage your SSBU mods directly from your Nintendo Switch. The application provides an intuitive console interface for enabling/disabling your mods with multilingual support and multiple sorting options.
 
 ## ✨ Features
 
 - 🎮 Intuitive console interface with D-Pad navigation
 - ✅ One-click mod activation/deactivation
-- 📁 Support for mods as files and folders
+- 📁 Support for both file and folder mods
 - 🔄 Automatic mod list refresh
 - 📊 Active/disabled mod counters
 - 🎯 Smooth navigation with visual selection
+- 🌍 **Multilingual support** (5 languages)
+- 🔀 **Multiple sorting options** (5 modes)
+- 🎨 Colorful interface with ANSI codes
+
+## 🌍 Supported Languages
+
+- 🇬🇧 English
+- 🇫🇷 French
+- 🇩🇪 German
+- 🇪🇸 Spanish
+- 🇮🇹 Italian
+
+## 🔀 Sorting Options
+
+1. **Alphabetical (A-Z)** - Classic alphabetical sorting
+2. **Alphabetical (Z-A)** - Reverse alphabetical sorting
+3. **Status (ON first)** - Active mods at top, then disabled
+4. **Status (OFF first)** - Disabled mods at top, then active
+5. **Type (Folders first)** - Folders first, then files
 
 ## 📦 Prerequisites
 
@@ -74,6 +93,8 @@ sdmc:/
 | ↑/↓ | Navigate through the list |
 | A | Enable/Disable selected mod |
 | X | Refresh mod list |
+| Y | Change language |
+| L/R | Change sorting order |
 | + | Exit application |
 
 ## 📝 Adding mods
