@@ -4,6 +4,7 @@
 #include <string.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include "localization.h"
 
 #define MAX_MODS 100
 #define MAX_PATH_LENGTH 256
@@ -22,15 +23,16 @@ typedef struct {
     Mod mods[MAX_MODS];
     int count;
     int selected;
+    Language current_language;
 } ModManager;
 
 void mod_manager_init(ModManager* manager);
 void mod_manager_scan_mods(ModManager* manager);
 void mod_manager_toggle_mod(ModManager* manager, int index);
 void mod_manager_draw(ModManager* manager);
+
 void mod_enable(const char* mod_name);
 void mod_disable(const char* mod_name);
-
-void create_mods_directories();
+void create_mods_directories(void);
 bool file_exists(const char* path);
 bool move_file_or_directory(const char* src, const char* dest);

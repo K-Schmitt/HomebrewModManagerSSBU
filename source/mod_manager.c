@@ -3,11 +3,12 @@
 void mod_manager_init(ModManager* manager) {
     manager->count = 0;
     manager->selected = 0;
+    manager->current_language = detect_system_language();
     memset(manager->mods, 0, sizeof(manager->mods));
     create_mods_directories();
 }
 
-void create_mods_directories() {
+void create_mods_directories(void) {
     mkdir("sdmc:/ultimate", 0777);
     mkdir("sdmc:/ultimate/mods", 0777);
     mkdir("sdmc:/ultimate/mods_disabled", 0777);
@@ -42,14 +43,13 @@ void mod_disable(const char* mod_name) {
     move_file_or_directory(src_path, dest_path);
 }
 
-void scan_directory(ModManager* manager, const char* dir_path, bool enabled) {
+static void scan_directory(ModManager* manager, const char* dir_path, bool enabled) {
     DIR* dir = opendir(dir_path);
     if (!dir) {
         return;
     }
 
     struct dirent* entry;
-
     while ((entry = readdir(dir)) != NULL && manager->count < MAX_MODS) {
         if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
             continue;
@@ -60,8 +60,13 @@ void scan_directory(ModManager* manager, const char* dir_path, bool enabled) {
         }
 
         Mod* mod = &manager->mods[manager->count];
-        strncpy(mod->name, entry->d_name, MAX_NAME_LENGTH - 1);
-        mod->name[MAX_NAME_LENGTH - 1] = '\0';
+        size_t name_len = strlen(entry->d_name);
+        if (name_len >= MAX_NAME_LENGTH) {
+            strncpy(mod->name, entry->d_name, MAX_NAME_LENGTH - 1);
+            mod->name[MAX_NAME_LENGTH - 1] = '\0';
+        } else {
+            strcpy(mod->name, entry->d_name);
+        }
 
         snprintf(mod->path, sizeof(mod->path), "%s%s", dir_path, entry->d_name);
 
@@ -76,9 +81,7 @@ void scan_directory(ModManager* manager, const char* dir_path, bool enabled) {
 
 void mod_manager_scan_mods(ModManager* manager) {
     manager->count = 0;
-
     scan_directory(manager, MODS_PATH, true);
-
     scan_directory(manager, MODS_DISABLED_PATH, false);
 }
 
@@ -104,17 +107,19 @@ void mod_manager_toggle_mod(ModManager* manager, int index) {
 
 void mod_manager_draw(ModManager* manager) {
     consoleClear();
+    
+    const LocalizedStrings* strings = get_localized_strings(manager->current_language);
 
     printf("\x1b[2;1H");
-    printf("=== Manager de Mods SSBU ===\n\n");
+    printf("%s\n\n", strings->title);
 
     if (manager->count == 0) {
-        printf("Aucun mod trouve.\n");
-        printf("Placez vos mods dans:\n");
-        printf("- %s (mods actifs)\n", MODS_PATH);
-        printf("- %s (mods desactives)\n\n", MODS_DISABLED_PATH);
+        printf("%s\n", strings->no_mods_found);
+        printf("%s\n", strings->place_mods_in);
+        printf("- %s (%s)\n", MODS_PATH, strings->active_mods);
+        printf("- %s (%s)\n\n", MODS_DISABLED_PATH, strings->disabled_mods);
     } else {
-        printf("Mods trouves: %d\n\n", manager->count);
+        printf("%s: %d\n\n", strings->mods_found, manager->count);
 
         int active_count = 0, disabled_count = 0;
         for (int i = 0; i < manager->count; i++) {
@@ -122,7 +127,8 @@ void mod_manager_draw(ModManager* manager) {
             else disabled_count++;
         }
 
-        printf("\x1b[32mActifs: %d\x1b[37m | \x1b[31mDesactives: %d\x1b[37m\n\n", active_count, disabled_count);
+        printf("\x1b[32m%s: %d\x1b[37m | \x1b[31m%s: %d\x1b[37m\n\n", 
+               strings->active, active_count, strings->disabled, disabled_count);
 
         for (int i = 0; i < manager->count; i++) {
             Mod* mod = &manager->mods[i];
@@ -142,7 +148,7 @@ void mod_manager_draw(ModManager* manager) {
             printf("\x1b[37m %s", mod->name);
 
             if (mod->is_directory) {
-                printf(" \x1b[36m(Dossier)\x1b[37m");
+                printf(" \x1b[36m(%s)\x1b[37m", strings->folder);
             }
 
             printf("\n");
@@ -150,11 +156,12 @@ void mod_manager_draw(ModManager* manager) {
     }
 
     printf("\n\x1b[33m");
-    printf("Controles:\n");
-    printf("↑/↓: Naviguer\n");
-    printf("A: Activer/Desactiver le mod\n");
-    printf("X: Actualiser la liste\n");
-    printf("+: Quitter\n");
+    printf("%s\n", strings->controls);
+    printf("↑/↓: %s\n", strings->navigate);
+    printf("A: %s\n", strings->toggle_mod);
+    printf("X: %s\n", strings->refresh_list);
+    printf("Y: %s\n", strings->change_language);
+    printf("+: %s\n", strings->quit);
     printf("\x1b[37m");
 
     consoleUpdate(NULL);

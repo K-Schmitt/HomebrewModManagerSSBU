@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include "mod_manager.h"
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     consoleInit(NULL);
 
     PadState pad;
@@ -13,16 +12,15 @@ int main(int argc, char **argv)
     ModManager manager;
     mod_manager_init(&manager);
     mod_manager_scan_mods(&manager);
-
     mod_manager_draw(&manager);
 
-    while (appletMainLoop())
-    {
+    while (appletMainLoop()) {
         padUpdate(&pad);
         u64 kDown = padGetButtonsDown(&pad);
 
-        if (kDown & HidNpadButton_Plus)
+        if (kDown & HidNpadButton_Plus) {
             break;
+        }
 
         if (kDown & HidNpadButton_Up) {
             if (manager.selected > 0) {
@@ -50,6 +48,11 @@ int main(int argc, char **argv)
             if (manager.selected >= manager.count) {
                 manager.selected = manager.count > 0 ? manager.count - 1 : 0;
             }
+            mod_manager_draw(&manager);
+        }
+
+        if (kDown & HidNpadButton_Y) {
+            manager.current_language = cycle_language(manager.current_language);
             mod_manager_draw(&manager);
         }
 

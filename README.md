@@ -15,14 +15,6 @@ HomebrewModManagerSSBU is a homebrew application that allows you to easily manag
 - 📊 Active/disabled mod counters
 - 🎯 Smooth navigation with visual selection
 
-## 🎯 Screenshots
-
-The interface displays:
-- List of mods with their status (ON/OFF)
-- Visual indication for folders
-- Active and disabled mod counters
-- Detailed controls
-
 ## 📦 Prerequisites
 
 - Nintendo Switch with Custom Firmware (CFW)
@@ -104,12 +96,13 @@ sdmc:/
 ```
 HomebrewModManagerSSBU/
 ├── include/
-│   └── mod_manager.h    # Function and structure declarations
+│   ├── localization.h      # Types et fonctions de localisation
+│   └── mod_manager.h       # Types et fonctions principales
 ├── source/
-│   ├── main.c           # Entry point and main loop
-│   └── mod_manager.c    # Mod management logic
-├── Makefile             # Build configuration
-└── README.md            # This file
+│   ├── localization.c      # Implémentation localisation + traductions
+│   ├── mod_manager.c       # Logique métier du gestionnaire
+│   └── main.c              # Point d'entrée et boucle principale
+└── ...
 ```
 
 ### Technical features

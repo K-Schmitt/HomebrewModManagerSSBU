@@ -36,15 +36,15 @@ include $(DEVKITPRO)/libnx/switch_rules
 #   If a JSON file is provided or autodetected, an external NACP file will not be used.
 #
 #---------------------------------------------------------------------------------
-TARGET		:=	manager-ssbu
+TARGET		:=	ssbu-mod-manager
 BUILD		:=	build
 SOURCES		:=	source
 DATA		:=	data
 INCLUDES	:=	include
 #ROMFS		:=	romfs
 
-APP_TITLE	:=	Manager SSBU
-APP_AUTHOR	:=	Kylian
+APP_TITLE	:=	SSBU Mod Manager
+APP_AUTHOR	:=	Slackliniste
 APP_VERSION	:=	1.0.0
 
 #---------------------------------------------------------------------------------
