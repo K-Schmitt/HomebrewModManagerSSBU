@@ -1,0 +1,60 @@
+name: Bug Report
+description: Report a bug in HomebrewModManagerSSBU
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting this bug! Please fill in the following information to help us resolve the issue.
+  
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug description
+      description: A clear and concise description of the bug
+      placeholder: Describe the problem you encountered...
+    validations:
+      required: true
+  
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: How to reproduce the bug
+      placeholder: |
+        1. Launch the application
+        2. Navigate to...
+        3. Press...
+        4. See error
+    validations:
+      required: true
+  
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should happen normally
+      placeholder: Describe what should happen...
+    validations:
+      required: true
+  
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Information about your setup
+      placeholder: |
+        - CFW: Atmosphere 1.x.x
+        - SSBU Version: 13.0.1
+        - SD Card: 128GB
+        - Number of mods: ~50
+    validations:
+      required: true
+  
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional information
+      description: Any other useful details
+      placeholder: Screenshots, logs, etc.

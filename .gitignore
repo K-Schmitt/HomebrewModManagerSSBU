@@ -1,0 +1,35 @@
+# Build artifacts
+build/
+*.o
+*.d
+*.elf
+*.nro
+*.nacp
+*.map
+
+# devkitPro temporary files
+*.tmp
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Log files
+*.log
