@@ -64,6 +64,7 @@ static void apply_sort(ModManager* manager) {
 void mod_manager_init(ModManager* manager) {
     manager->count = 0;
     manager->selected = 0;
+    manager->scroll_offset = 0;
     manager->current_language = detect_system_language();
     manager->current_sort = SORT_ALPHABETICAL;
     memset(manager->mods, 0, sizeof(manager->mods));
@@ -173,6 +174,39 @@ void mod_manager_cycle_sort(ModManager* manager) {
     mod_manager_scan_mods(manager);
 }
 
+static void adjust_scroll(ModManager* manager) {
+    if (manager->selected < manager->scroll_offset) {
+        manager->scroll_offset = manager->selected;
+    }
+    else if (manager->selected >= manager->scroll_offset + MAX_VISIBLE_MODS) {
+        manager->scroll_offset = manager->selected - MAX_VISIBLE_MODS + 1;
+    }
+}
+
+void mod_manager_adjust_scroll(ModManager* manager) {
+    adjust_scroll(manager);
+}
+
+void mod_manager_enable_all(ModManager* manager) {
+    for (int i = 0; i < manager->count; i++) {
+        if (!manager->mods[i].enabled) {
+            mod_enable(manager->mods[i].name);
+        }
+    }
+    mod_manager_scan_mods(manager);
+    mod_manager_adjust_scroll(manager);
+}
+
+void mod_manager_disable_all(ModManager* manager) {
+    for (int i = 0; i < manager->count; i++) {
+        if (manager->mods[i].enabled) {
+            mod_disable(manager->mods[i].name);
+        }
+    }
+    mod_manager_scan_mods(manager);
+    mod_manager_adjust_scroll(manager);
+}
+
 const char* get_sort_name(SortOrder sort, Language lang) {
     const LocalizedStrings* strings = get_localized_strings(lang);
 
@@ -217,10 +251,23 @@ void mod_manager_draw(ModManager* manager) {
         printf("\x1b[32m%s: %d\x1b[37m | \x1b[31m%s: %d\x1b[37m\n", 
                strings->active, active_count, strings->disabled, disabled_count);
 
-        printf("\x1b[36m%s: %s\x1b[37m\n\n", 
+        printf("\x1b[36m%s: %s\x1b[37m\n",
                strings->current_sort, get_sort_name(manager->current_sort, manager->current_language));
 
-        for (int i = 0; i < manager->count; i++) {
+        if (manager->count > MAX_VISIBLE_MODS) {
+            int current_page = (manager->scroll_offset / MAX_VISIBLE_MODS) + 1;
+            int total_pages = (manager->count + MAX_VISIBLE_MODS - 1) / MAX_VISIBLE_MODS;
+            printf("\x1b[33mPage %d/%d\x1b[37m\n", current_page, total_pages);
+        }
+        printf("\n");
+
+        int start_index = manager->scroll_offset;
+        int end_index = start_index + MAX_VISIBLE_MODS;
+        if (end_index > manager->count) {
+            end_index = manager->count;
+        }
+
+        for (int i = start_index; i < end_index; i++) {
             Mod* mod = &manager->mods[i];
 
             if (i == manager->selected) {
@@ -243,15 +290,29 @@ void mod_manager_draw(ModManager* manager) {
 
             printf("\n");
         }
+
+        if (manager->count > MAX_VISIBLE_MODS) {
+            printf("\n\x1b[33m");
+            if (manager->scroll_offset > 0) {
+                printf("%s", strings->mods_above);
+            }
+            if (end_index < manager->count) {
+                if (manager->scroll_offset > 0) printf(" | ");
+                printf("%s", strings->mods_below);
+            }
+            printf("\x1b[37m\n");
+        }
     }
 
     printf("\n\x1b[33m");
     printf("%s\n", strings->controls);
-    printf("↑/↓: %s\n", strings->navigate);
+    printf("^/v: %s\n", strings->navigate);
     printf("A: %s\n", strings->toggle_mod);
     printf("X: %s\n", strings->refresh_list);
     printf("Y: %s\n", strings->change_language);
     printf("L/R: %s\n", strings->change_sort);
+    printf("ZL: %s\n", strings->enable_all);
+    printf("ZR: %s\n", strings->disable_all);
     printf("+: %s\n", strings->quit);
     printf("\x1b[37m");
 

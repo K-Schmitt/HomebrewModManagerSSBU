@@ -27,6 +27,10 @@ typedef struct {
     const char* quit;
     const char* change_language;
     const char* change_sort;
+    const char* enable_all;
+    const char* disable_all;
+    const char* mods_above;
+    const char* mods_below;
     const char* sort_alphabetical;
     const char* sort_alphabetical_reverse;
     const char* sort_status_on_first;

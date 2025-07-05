@@ -10,10 +10,12 @@ HomebrewModManagerSSBU is a homebrew application that allows you to easily manag
 
 - 🎮 Intuitive console interface with D-Pad navigation
 - ✅ One-click mod activation/deactivation
+- ⚡ **Bulk operations**: Enable/disable all mods at once
+- 📄 **Smart pagination**: Handle large mod collections (100+ mods)
 - 📁 Support for both file and folder mods
 - 🔄 Automatic mod list refresh
-- 📊 Active/disabled mod counters
-- 🎯 Smooth navigation with visual selection
+- 📊 Active/disabled mod counters with pagination info
+- 🎯 Smooth navigation with visual selection and auto-scroll
 - 🌍 **Multilingual support** (5 languages)
 - 🔀 **Multiple sorting options** (5 modes)
 - 🎨 Colorful interface with ANSI codes
@@ -44,7 +46,7 @@ HomebrewModManagerSSBU is a homebrew application that allows you to easily manag
 ## 🚀 Installation
 
 ### Option 1: Direct download
-1. Download the `manager-ssbu.nro` file from [Releases](../../releases)
+1. Download the `ssbu-mod-manager.nro` file from [Releases](../../releases)
 2. Copy the file to the `/switch/` folder on your SD card
 3. Launch the application via the Homebrew Launcher
 
@@ -65,7 +67,7 @@ cd HomebrewModManagerSSBU
 make clean
 make
 
-# The manager-ssbu.nro file will be generated in the root folder
+# The ssbu-mod-manager.nro file will be generated in the root folder
 ```
 
 ## 📁 Folder structure
@@ -84,25 +86,36 @@ sdmc:/
 1. **Launch**: Open the application from the Homebrew Launcher
 2. **Navigation**: Use ↑/↓ to navigate through the mod list
 3. **Toggle**: Press A to toggle a mod's state
-4. **Refresh**: Press X to refresh the list (useful after adding new mods)
-5. **Exit**: Press + to close the application
+4. **Bulk operations**: Use ZL/ZR to enable/disable all mods at once
+5. **Refresh**: Press X to refresh the list (useful after adding new mods)
+6. **Exit**: Press + to close the application
 
 ### Controls
 | Button | Action |
 |--------|--------|
-| ↑/↓ | Navigate through the list |
+| ↑/↓ (^/v) | Navigate through the list |
 | A | Enable/Disable selected mod |
 | X | Refresh mod list |
 | Y | Change language |
 | L/R | Change sorting order |
+| **ZL** | **Enable all mods** |
+| **ZR** | **Disable all mods** |
 | + | Exit application |
+
+### Smart Pagination
+- The interface displays up to 20 mods at once for optimal readability
+- When you have more mods, pagination indicators show:
+  - Current page number (e.g., "Page 2/5")
+  - "^ More mods above" when there are mods above the current view
+  - "v More mods below" when there are mods below the current view
+- Navigation automatically scrolls the view to keep the selected mod visible
 
 ## 📝 Adding mods
 
 1. Place your mods in the `sdmc:/ultimate/mods/` folder (they will be active by default)
 2. Or in `sdmc:/ultimate/mods_disabled/` (they will be disabled by default)
 3. Launch the manager and press X to refresh the list
-4. Use A to enable/disable as needed
+4. Use A to enable/disable individual mods, or ZL/ZR for bulk operations
 
 ## ⚠️ Important notes
 
@@ -110,6 +123,7 @@ sdmc:/
 - **Compatibility**: Check mod compatibility with your SSBU version
 - **Performance**: Too many active mods may affect performance
 - **Updates**: Disable all mods before game updates
+- **Large collections**: The manager can handle 100+ mods efficiently with pagination
 
 ## 🔧 Development
 
@@ -117,20 +131,23 @@ sdmc:/
 ```
 HomebrewModManagerSSBU/
 ├── include/
-│   ├── localization.h      # Types et fonctions de localisation
-│   └── mod_manager.h       # Types et fonctions principales
+│   ├── localization.h      # Localization types and functions
+│   └── mod_manager.h       # Core types and functions
 ├── source/
-│   ├── localization.c      # Implémentation localisation + traductions
-│   ├── mod_manager.c       # Logique métier du gestionnaire
-│   └── main.c              # Point d'entrée et boucle principale
+│   ├── localization.c      # Localization implementation + translations
+│   ├── mod_manager.c       # Mod manager business logic
+│   └── main.c              # Entry point and main loop
 └── ...
 ```
 
 ### Technical features
-- Secure memory management with defined limits
-- Recursive mod folder scanning
-- Atomic file operations
+- Secure memory management with defined limits (max 100 mods)
+- Recursive mod folder scanning with file type detection
+- Atomic file operations for safe mod state changes
 - Console interface with ANSI color codes
+- Smart pagination system for large mod collections
+- Auto-scrolling navigation system
+- Bulk operations with progress handling
 
 ## 🤝 Contributing
 
@@ -157,7 +174,9 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 If you encounter issues:
 1. Check that your CFW is up to date
 2. Make sure the required folders exist
-3. Open an [issue](../../issues) with details about your problem
+3. Verify that your SD card has enough free space
+4. For large mod collections, ensure mods are properly named (no special characters)
+5. Open an [issue](../../issues) with details about your problem
 
 ---
 

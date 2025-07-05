@@ -25,6 +25,7 @@ int main(int argc, char **argv) {
         if (kDown & HidNpadButton_Up) {
             if (manager.selected > 0) {
                 manager.selected--;
+                mod_manager_adjust_scroll(&manager);
                 mod_manager_draw(&manager);
             }
         }
@@ -32,6 +33,7 @@ int main(int argc, char **argv) {
         if (kDown & HidNpadButton_Down) {
             if (manager.selected < manager.count - 1) {
                 manager.selected++;
+                mod_manager_adjust_scroll(&manager);
                 mod_manager_draw(&manager);
             }
         }
@@ -48,6 +50,7 @@ int main(int argc, char **argv) {
             if (manager.selected >= manager.count) {
                 manager.selected = manager.count > 0 ? manager.count - 1 : 0;
             }
+            mod_manager_adjust_scroll(&manager);
             mod_manager_draw(&manager);
         }
 
@@ -61,7 +64,22 @@ int main(int argc, char **argv) {
             if (manager.selected >= manager.count) {
                 manager.selected = manager.count > 0 ? manager.count - 1 : 0;
             }
+            mod_manager_adjust_scroll(&manager);
             mod_manager_draw(&manager);
+        }
+
+        if (kDown & HidNpadButton_ZL) {
+            if (manager.count > 0) {
+                mod_manager_enable_all(&manager);
+                mod_manager_draw(&manager);
+            }
+        }
+
+        if (kDown & HidNpadButton_ZR) {
+            if (manager.count > 0) {
+                mod_manager_disable_all(&manager);
+                mod_manager_draw(&manager);
+            }
         }
 
         consoleUpdate(NULL);

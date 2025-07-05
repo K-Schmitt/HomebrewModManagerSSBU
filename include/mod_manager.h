@@ -11,6 +11,7 @@
 #define MAX_NAME_LENGTH 64
 #define MODS_PATH "sdmc:/ultimate/mods/"
 #define MODS_DISABLED_PATH "sdmc:/ultimate/mods_disabled/"
+#define MAX_VISIBLE_MODS 23
 
 typedef enum {
     SORT_ALPHABETICAL = 0,
@@ -32,6 +33,7 @@ typedef struct {
     Mod mods[MAX_MODS];
     int count;
     int selected;
+    int scroll_offset;
     Language current_language;
     SortOrder current_sort;
 } ModManager;
@@ -40,6 +42,9 @@ void mod_manager_init(ModManager* manager);
 void mod_manager_scan_mods(ModManager* manager);
 void mod_manager_toggle_mod(ModManager* manager, int index);
 void mod_manager_draw(ModManager* manager);
+void mod_manager_adjust_scroll(ModManager* manager);
+void mod_manager_enable_all(ModManager* manager);
+void mod_manager_disable_all(ModManager* manager);
 
 void mod_enable(const char* mod_name);
 void mod_disable(const char* mod_name);
