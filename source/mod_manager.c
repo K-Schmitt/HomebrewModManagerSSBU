@@ -254,11 +254,6 @@ void mod_manager_draw(ModManager* manager) {
         printf("\x1b[36m%s: %s\x1b[37m\n",
                strings->current_sort, get_sort_name(manager->current_sort, manager->current_language));
 
-        if (manager->count > MAX_VISIBLE_MODS) {
-            int current_page = (manager->scroll_offset / MAX_VISIBLE_MODS) + 1;
-            int total_pages = (manager->count + MAX_VISIBLE_MODS - 1) / MAX_VISIBLE_MODS;
-            printf("\x1b[33mPage %d/%d\x1b[37m\n", current_page, total_pages);
-        }
         printf("\n");
 
         int start_index = manager->scroll_offset;

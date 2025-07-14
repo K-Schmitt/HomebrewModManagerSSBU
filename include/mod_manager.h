@@ -11,7 +11,7 @@
 #define MAX_NAME_LENGTH 64
 #define MODS_PATH "sdmc:/ultimate/mods/"
 #define MODS_DISABLED_PATH "sdmc:/ultimate/mods_disabled/"
-#define MAX_VISIBLE_MODS 24
+#define MAX_VISIBLE_MODS 26
 
 typedef enum {
     SORT_ALPHABETICAL = 0,
