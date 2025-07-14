@@ -93,7 +93,8 @@ sdmc:/
 ### Controls
 | Button | Action |
 |--------|--------|
-| ↑/↓ (^/v) | Navigate through the list |
+| ↑/↓ (^/v) | Navigate through the list (with wrap-around) |
+| **Left Stick ↑/↓** | **Fast navigation (10 items at once)** |
 | A | Enable/Disable selected mod |
 | X | Refresh mod list |
 | Y | Change language |

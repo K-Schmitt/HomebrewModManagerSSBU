@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include "mod_manager.h"
 
+#define STICK_THRESHOLD 0.5f
+
 int main(int argc, char **argv) {
     consoleInit(NULL);
 
@@ -14,27 +16,67 @@ int main(int argc, char **argv) {
     mod_manager_scan_mods(&manager);
     mod_manager_draw(&manager);
 
+    u64 lastStickInput = 0;
+
     while (appletMainLoop()) {
         padUpdate(&pad);
         u64 kDown = padGetButtonsDown(&pad);
+
+        HidAnalogStickState leftStick = padGetStickPos(&pad, 0);
+        float stickY = (float)leftStick.y / 32767.0f;
 
         if (kDown & HidNpadButton_Plus) {
             break;
         }
 
         if (kDown & HidNpadButton_Up) {
-            if (manager.selected > 0) {
-                manager.selected--;
+            if (manager.count > 0) {
+                if (manager.selected > 0) {
+                    manager.selected--;
+                } else {
+                    manager.selected = manager.count - 1;
+                }
                 mod_manager_adjust_scroll(&manager);
                 mod_manager_draw(&manager);
             }
         }
 
         if (kDown & HidNpadButton_Down) {
-            if (manager.selected < manager.count - 1) {
-                manager.selected++;
+            if (manager.count > 0) {
+                if (manager.selected < manager.count - 1) {
+                    manager.selected++;
+                } else {
+                    manager.selected = 0;
+                }
                 mod_manager_adjust_scroll(&manager);
                 mod_manager_draw(&manager);
+            }
+        }
+
+        u64 currentTick = armGetSystemTick();
+        if (manager.count > 0 && (currentTick - lastStickInput) > 1000000) {
+            if (stickY > STICK_THRESHOLD) {
+                int newSelected = manager.selected - 1;
+                if (newSelected < 0) {
+                    newSelected = 0;
+                }
+                if (newSelected != manager.selected) {
+                    manager.selected = newSelected;
+                    mod_manager_adjust_scroll(&manager);
+                    mod_manager_draw(&manager);
+                    lastStickInput = currentTick;
+                }
+            } else if (stickY < -STICK_THRESHOLD) {
+                int newSelected = manager.selected + 1;
+                if (newSelected >= manager.count) {
+                    newSelected = manager.count - 1;
+                }
+                if (newSelected != manager.selected) {
+                    manager.selected = newSelected;
+                    mod_manager_adjust_scroll(&manager);
+                    mod_manager_draw(&manager);
+                    lastStickInput = currentTick;
+                }
             }
         }
 
