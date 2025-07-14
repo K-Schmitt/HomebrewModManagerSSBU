@@ -45,7 +45,7 @@ INCLUDES	:=	include
 
 APP_TITLE	:=	SSBU Mod Manager
 APP_AUTHOR	:=	Slackliniste
-APP_VERSION	:=	1.0.0
+APP_VERSION	:=	1.1.1
 
 #---------------------------------------------------------------------------------
 # options for code generation

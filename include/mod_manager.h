@@ -6,12 +6,12 @@
 #include <sys/stat.h>
 #include "localization.h"
 
-#define MAX_MODS 100
+#define MAX_MODS 500
 #define MAX_PATH_LENGTH 256
 #define MAX_NAME_LENGTH 64
 #define MODS_PATH "sdmc:/ultimate/mods/"
 #define MODS_DISABLED_PATH "sdmc:/ultimate/mods_disabled/"
-#define MAX_VISIBLE_MODS 23
+#define MAX_VISIBLE_MODS 24
 
 typedef enum {
     SORT_ALPHABETICAL = 0,
