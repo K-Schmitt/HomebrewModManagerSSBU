@@ -1,0 +1,7 @@
+{
+  "title": "HomebrewModManager",
+  "description": "A mod manager for Homebrew games with auto-update support.",
+  "image": "icon.jpg",
+  "status": "in-progress",
+  "language": "C#"
+}
