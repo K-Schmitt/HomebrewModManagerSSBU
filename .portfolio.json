@@ -1,8 +1,8 @@
 {
-  "title": "HomebrewModManager",
+  "title": "HomebrewModManagerSSBU",
   "year": 2025,
-  "description": "A mod manager for Homebrew games with auto-update support.",
+  "description": "A simple and efficient mod manager for Super Smash Bros Ultimate on Nintendo Switch.",
   "image": "Preview.png",
   "status": "in-progress",
-  "language": "C#"
+  "language": "C"
 }
