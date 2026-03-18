@@ -1,7 +1,8 @@
 {
   "title": "HomebrewModManager",
+  "year": 2025,
   "description": "A mod manager for Homebrew games with auto-update support.",
-  "image": "icon.jpg",
+  "image": "Preview.png",
   "status": "in-progress",
   "language": "C#"
 }
